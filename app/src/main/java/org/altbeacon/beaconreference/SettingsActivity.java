@@ -5,13 +5,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 public class SettingsActivity extends Activity {
-
+    String name;
+    String uuid;
+    String major;
+    String minor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        EditText mn=(EditText)findViewById(R.id.meaningfulname);
+        EditText u16b=(EditText)findViewById(R.id.uuid16byte);
+        EditText maj=(EditText)findViewById(R.id.major);
+        EditText min=(EditText)findViewById(R.id.minor);
+        name=String.valueOf(mn.getText());
+        uuid=String.valueOf(u16b.getText());
+        major=String.valueOf(maj.getText());
+        minor=String.valueOf(min.getText());
+
     }
 
     @Override
@@ -30,13 +43,17 @@ public class SettingsActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
 
-        if (id == R.id.action_home) {
+        if (id == R.id.action_done) {
             Intent i=new Intent(this,HomeActivity.class);
+            i.putExtra("name",name);
+            i.putExtra("uuid",uuid);
+            i.putExtra("major",major);
+            i.putExtra("minor",minor);
             this.startActivity(i);
             return true;
         }
 
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_info) {
             Intent i=new Intent(this,SettingsActivity.class);
             this.startActivity(i);
             return true;

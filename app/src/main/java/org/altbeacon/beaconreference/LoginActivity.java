@@ -32,6 +32,15 @@ public class LoginActivity extends Activity {
         });
     }
 
+    public void onLoginClicked(View view) {
+        Intent intent=new Intent(this,HomeActivity.class);
+        this.startActivity(intent);
+    }
+    public void onSignUpClicked(View view) {
+        Intent intent=new Intent(this,RegisterActivity.class);
+        this.startActivity(intent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -54,8 +63,4 @@ public class LoginActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onLoginClicked(View view) {
-        Intent intent=new Intent(this,HomeActivity.class);
-        this.startActivity(intent);
-    }
 }
