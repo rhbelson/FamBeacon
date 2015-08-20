@@ -1,0 +1,25 @@
+<resources>
+
+    <string name="app_name">FamBeacon</string>
+    <string name="title_login">FamBeacon</string>
+    <string name="action_settings">Settings</string>
+    <string name="login">Log in Here to Begin</string>
+    <string name="email">Email:</string>
+    <string name="password">Password:</string>
+    <string name="title_activity_register">Create Your FamBeacon Account</string>
+    <string name="membership">Not yet a member? Sign up for free today!</string>
+    <string name="register_info">Please Fill Out the Following Information</string>
+    <string name="registerbutton">Sign Up</string>
+    <string name="loginbutton">Log in</string>
+    <string name="rnlogo">rn_logo</string>
+    <string name="welcomedescription">A modern solution to keep track of your child or any loved ones.</string>
+    <string name="title_activity_welcome">FamBeacon</string>
+    <string name="mainscreeninfo">Welcome to FamBeacon! Currently, we dont see a beacon in range. If your child is near you, please refer to settings to connect your child to FamBeacon.</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_main">FamBeacon</string>
+    <string name="action_home">Home</string>
+    <string name="title_activity_login">FamBeacon</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+</resources>

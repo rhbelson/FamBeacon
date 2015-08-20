@@ -1,0 +1,160 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="org.altbeacon.beaconreference.RegisterActivity"
+    android:background="#b23838"
+    android:id="@+id/registerlayout">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="First Name"
+        android:id="@+id/textView4"
+        android:layout_marginTop="30dp"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Last Name"
+        android:id="@+id/textView5"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:layout_alignTop="@+id/editText4"
+        android:layout_alignStart="@+id/editText4" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editText3"
+        android:layout_alignTop="@+id/textView4"
+        android:layout_alignParentStart="true"
+        android:width="150sp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editText4"
+        android:width="160sp"
+        android:layout_above="@+id/textView10"
+        android:layout_alignStart="@+id/editText6" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Phone Number"
+        android:id="@+id/textView6"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:layout_below="@+id/editText3"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/editText5"
+        android:layout_below="@+id/editText3"
+        android:layout_alignParentStart="true"
+        android:width="150sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Email"
+        android:id="@+id/textView10"
+        android:layout_alignTop="@+id/editText5"
+        android:layout_alignStart="@+id/editText4"
+        android:textStyle="bold"
+        android:textColor="#ffffff" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/editText6"
+        android:layout_alignBottom="@+id/editText5"
+        android:layout_alignParentEnd="true"
+        android:width="160sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Create a Password"
+        android:id="@+id/textView12"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:layout_below="@+id/editText5"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Verify Password"
+        android:id="@+id/textView13"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:layout_alignTop="@+id/textView12"
+        android:layout_alignStart="@+id/editText6" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/editText7"
+        android:layout_alignTop="@+id/textView12"
+        android:layout_alignParentStart="true"
+        android:width="150sp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/editText8"
+        android:width="160sp"
+        android:layout_alignTop="@+id/textView13"
+        android:layout_alignStart="@+id/textView13" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:id="@+id/signupbutton"
+        android:onClick="onsignup"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="30dp" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign me up for FamBeacon updates and other news from the Radius Networks team."
+        android:id="@+id/radioButton"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:layout_above="@+id/signupbutton"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="37dp" />
+
+</RelativeLayout>

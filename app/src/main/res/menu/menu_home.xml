@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="org.altbeacon.beaconreference.HomeActivity">
+    <item android:id="@+id/action_settings" android:title="@string/action_settings" android:icon="@drawable/settings_icon"
+        android:orderInCategory="99" android:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/action_home" android:title="@string/action_home" android:icon="@drawable/home_icon"
+        android:orderInCategory="100" android:showAsAction="ifRoom|withText" />
+</menu>
