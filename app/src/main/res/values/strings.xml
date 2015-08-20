@@ -19,7 +19,7 @@
     <string name="title_activity_main">FamBeacon</string>
     <string name="action_home">Home</string>
     <string name="title_activity_login">FamBeacon</string>
-    <string name="title_activity_settings">SettingsActivity</string>
-    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_home">Home</string>
 
 </resources>

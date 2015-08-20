@@ -25,11 +25,6 @@
         <activity
             android:name=".MonitoringActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".RangingActivity"
@@ -39,6 +34,11 @@
             android:name=".WelcomeActivity"
             android:icon="@drawable/fambeacon_icon"
             android:label="@string/title_activity_welcome" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -51,6 +51,10 @@
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home" >
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" >
         </activity>
     </application>
 

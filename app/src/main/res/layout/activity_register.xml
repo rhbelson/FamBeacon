@@ -142,9 +142,9 @@
         android:text="Sign Up"
         android:id="@+id/signupbutton"
         android:onClick="onsignup"
+        android:layout_marginBottom="35dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="30dp" />
+        android:layout_alignEnd="@+id/radioButton" />
 
     <RadioButton
         android:layout_width="wrap_content"
