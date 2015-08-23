@@ -143,7 +143,7 @@ public class HomeActivity extends Activity implements BeaconConsumer {
         mBeaconManager.setMonitorNotifier(new MonitorNotifier() {
             @Override
             public void didEnterRegion(Region region) {
-                Log.i(TAG, "I just saw an beacon for the first time!");
+                Log.i(TAG, "OBSC:didEnterRegion called");
                 runOnUiThread(
                         new Runnable() {
                             public void run() {
@@ -154,7 +154,13 @@ public class HomeActivity extends Activity implements BeaconConsumer {
 
             @Override
             public void didExitRegion(Region region) {
-                Log.i(TAG, "I no longer see an beacon");
+                Log.i(TAG, "OBSC:didExitRegion called");
+                runOnUiThread(
+                        new Runnable() {
+                            public void run() {
+                                beaconexited();
+                            }
+                        });
             }
 
             @Override
@@ -203,6 +209,17 @@ public class HomeActivity extends Activity implements BeaconConsumer {
                     myFragment.show(getFragmentManager(), "theDialog");
                 }
             }
+        }
+
+
+        public void beaconexited() {
+            for (Beacon beacon : sortedBeacons) {
+                if (String.valueOf(beacon.getId1()) == beacon_uuid && String.valueOf(beacon.getId2()) == beacon_major && String.valueOf(beacon.getId3()) == beacon_minor) {
+                    Log.d(TAG, "OBSC:Beacon exited region");
+
+                }
+            }
+
         }
 }
 
