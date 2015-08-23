@@ -13,7 +13,7 @@
     <string name="rnlogo">rn_logo</string>
     <string name="welcomedescription">A modern solution to keep track of your child or any loved ones.</string>
     <string name="title_activity_welcome">FamBeacon</string>
-    <string name="mainscreeninfo">Welcome to FamBeacon! Currently, we dont see a beacon in range. If your child is near you, please refer to settings to connect your child to FamBeacon.</string>
+    <string name="mainscreeninfo">Welcome to FamBeacon! Currently, we dont see your beacon in range. If your child is near you, please refer to settings to connect your child to FamBeacon.</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_main">FamBeacon</string>
     <string name="action_home">Home</string>

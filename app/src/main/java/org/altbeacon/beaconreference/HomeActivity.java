@@ -1,10 +1,17 @@
 package org.altbeacon.beaconreference;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.RemoteException;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -40,7 +47,7 @@ import java.util.List;
 
 
 
-public class HomeActivity extends Activity implements BeaconConsumer {
+public class HomeActivity extends Activity implements BeaconConsumer,RangeNotifier {
     private static final String TAG = "BeaconScanActivity";
     private RegionBootstrap regionBootstrap;
     private BeaconManager mBeaconManager;
@@ -50,6 +57,9 @@ public class HomeActivity extends Activity implements BeaconConsumer {
     private Date mLastRangingCallbackDate = null;
     private android.os.Handler mHandler = null;
     public ArrayList<Beacon> sortedBeacons;
+    public Boolean enteredregion=false;
+    public Boolean exitedregion=false;
+
 
     String beacon_name;
     String beacon_uuid;
@@ -120,54 +130,79 @@ public class HomeActivity extends Activity implements BeaconConsumer {
 
     @Override
     public void onBeaconServiceConnect() {
-        Log.d(TAG, "OBSC: Reached onBeaconServiceConnect");
-        mBeaconManager.setRangeNotifier(new RangeNotifier() {
+        Region region = new Region("all-beacons-region", null, null, null);
+        try {
+            mBeaconManager.startRangingBeaconsInRegion(region);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        mBeaconManager.setRangeNotifier(this);
+//        mBeaconManager.setMonitorNotifier(new MonitorNotifier() {
+//            @Override
+//            public void didEnterRegion(Region region) {
+//                Log.i(TAG, "I just saw an beacon for the first time!");
+//            }
+//
+//            @Override
+//            public void didExitRegion(Region region) {
+//                runOnUiThread(new Runnable() {
+//                    public void run() {
+//                        beaconexited();
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void didDetermineStateForRegion(int state, Region region) {
+//                Log.i(TAG, "I have just switched from seeing/not seeing beacons: " + state);
+//            }
+//        });
+//
+//        try {
+//            mBeaconManager.startMonitoringBeaconsInRegion(new Region("myMonitoringUniqueId", null, null, null));
+//        } catch (RemoteException e) {    }
+    }
 
-            @Override
-            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-                Log.d(TAG, "OBSC: Reached didRangeBeaconsInRegion" + String.valueOf(beacons.size()));
-                if (beacons.size() > 0) {
-                    for (Beacon beacon : beacons) {//Beacon x: beacons
-                        trackedBeacons.put(getBeaconKey(beacon), beacon);
-                        trackedBeaconDates.put(getBeaconKey(beacon), new Date());
-                    }
-                    runOnUiThread(
-                            new Runnable() {
-                                public void run() {
-                                    beaconfound();
-                                }
-                            });
-                }
-            }
-        });
-        mBeaconManager.setMonitorNotifier(new MonitorNotifier() {
-            @Override
-            public void didEnterRegion(Region region) {
-                Log.i(TAG, "OBSC:didEnterRegion called");
-                runOnUiThread(
-                        new Runnable() {
+
+    @Override
+    public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+            if (beacons.size()>0) {
+                Log.d("TAG", "OBSC:didRangeBeaconsInRegion");
+                for (Beacon beacon:beacons) {
+                    if (String.valueOf(beacon.getId1()) == beacon_uuid && String.valueOf(beacon.getId2()) == beacon_major && String.valueOf(beacon.getId3()) == beacon_minor) {
+                        runOnUiThread(new Runnable() {
                             public void run() {
                                 beaconentered();
                             }
                         });
-            }
-
-            @Override
-            public void didExitRegion(Region region) {
-                Log.i(TAG, "OBSC:didExitRegion called");
-                runOnUiThread(
-                        new Runnable() {
+                    }
+                    if (enteredregion==false) {
+                        runOnUiThread(new Runnable() {
                             public void run() {
-                                beaconexited();
+                                //This should really be beaconfound() but for testing purposes I'm leaving beaconentered() there
+                                beaconentered();
                             }
                         });
+                        enteredregion=true;
+                    }
+                }
             }
+            if (beacons.size()==0) {
+                //Notification
+                if (exitedregion==false) {
+                    beaconexitedregion();
+                    new CountDownTimer(10000, 1000) {
+                        public void onTick(long millisUntilFinished) {
+                            //Do nothing
+                        }
 
-            @Override
-            public void didDetermineStateForRegion(int state, Region region) {
-                Log.i(TAG, "I have just switched from seeing/not seeing beacons: "+state);
-            }
-        });
+                        public void onFinish() {
+                            Toast.makeText(HomeActivity.this, "Beacon exited region 10 seconds ago", Toast.LENGTH_LONG).show();
+                        }
+                    }.start();
+                    exitedregion=true;
+                }
+                }
     }
 
 
@@ -175,52 +210,49 @@ public class HomeActivity extends Activity implements BeaconConsumer {
 
 
 
-
     public void beaconfound() {
-        sortedBeacons = new ArrayList<Beacon>(trackedBeacons.values());
-        Collections.sort(sortedBeacons, new Comparator<Beacon>() {
-            @Override
-            public int compare(Beacon beacon1, Beacon beacon2) {
-                int result = beacon1.getId1().compareTo(beacon2.getId1());
-                if (result == 0) {
-                    result = beacon1.getId2().compareTo(beacon2.getId2());
-                }
-                if (result == 0) {
-                    result = beacon1.getId3().compareTo(beacon2.getId3());
-                }
-                return result;
-            }
-        });
+        Log.d(TAG, "OBSC:Beacon Found");
+        Toast.makeText(HomeActivity.this,"A beacon has been spotted! If you have not yet configured your beacon, please do so by visiting the settings page.",Toast.LENGTH_LONG).show();
+    }
 
-            if (sortedBeacons.size()>0) {
-                Log.d(TAG, "OBSC:Beacon Found");
-                TextView home_default_text=(TextView)findViewById(R.id.home_default_text);
-                home_default_text.setVisibility(View.INVISIBLE);
-                Toast.makeText(HomeActivity.this,"A beacon has been spotted! If you have not yet configured your beacon, please do so by visiting the settings page",Toast.LENGTH_LONG).show();
-            }
 
-}
-
-        public void beaconentered() {
-            for (Beacon beacon : sortedBeacons) {
-                if (String.valueOf(beacon.getId1()) == beacon_uuid && String.valueOf(beacon.getId2()) == beacon_major && String.valueOf(beacon.getId3()) == beacon_minor) {
-                    Log.d(TAG, "OBSC:Beacon entered region");
-                    BeaconDetectedDialogFragment myFragment = new BeaconDetectedDialogFragment();
-                    myFragment.show(getFragmentManager(), "theDialog");
-                }
-            }
+    public void beaconentered() {
+        Log.d(TAG, "OBSC:Beacon entered region");
+        BeaconDetectedDialogFragment myFragment = new BeaconDetectedDialogFragment();
+        myFragment.show(getFragmentManager(), "theDialog");
         }
 
 
-        public void beaconexited() {
-            for (Beacon beacon : sortedBeacons) {
-                if (String.valueOf(beacon.getId1()) == beacon_uuid && String.valueOf(beacon.getId2()) == beacon_major && String.valueOf(beacon.getId3()) == beacon_minor) {
-                    Log.d(TAG, "OBSC:Beacon exited region");
 
-                }
-            }
 
-        }
+    public void beaconexitedregion() {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.fambeacon_icon)
+                        .setContentTitle("Your beacon exited region")
+                        .setContentText("Are you aware that your beacon has exited region. Please confirm you have seen this");
+// Creates an explicit intent for an Activity in your app
+        Intent resultIntent = new Intent(this, HomeActivity.class);
+
+// The stack builder object will contain an artificial back stack for the
+// started Activity.
+// This ensures that navigating backward from the Activity leads out of
+// your application to the Home screen.
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+// Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(HomeActivity.class);
+// Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+// mId allows you to update the notification later on.
+        mNotificationManager.notify(1, mBuilder.build());
+    }
 }
 
 
