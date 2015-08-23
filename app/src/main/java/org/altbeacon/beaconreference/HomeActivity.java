@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -167,7 +168,7 @@ public class HomeActivity extends Activity implements BeaconConsumer,RangeNotifi
     @Override
     public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
             if (beacons.size()>0) {
-                Log.d("TAG", "OBSC:didRangeBeaconsInRegion");
+                Log.d("TAG", "OBSC:didRangeBeaconsInRegion"+String.valueOf(beacons.size()));
                 for (Beacon beacon:beacons) {
                     if (String.valueOf(beacon.getId1()) == beacon_uuid && String.valueOf(beacon.getId2()) == beacon_major && String.valueOf(beacon.getId3()) == beacon_minor) {
                         runOnUiThread(new Runnable() {
@@ -183,15 +184,18 @@ public class HomeActivity extends Activity implements BeaconConsumer,RangeNotifi
                                 beaconentered();
                             }
                         });
+                        sendSMS();
                         enteredregion=true;
                     }
                 }
             }
             if (beacons.size()==0) {
+                Log.d(TAG,"OBSC: ZERO BEACONS");
                 //Notification
                 if (exitedregion==false) {
                     beaconexitedregion();
                     new CountDownTimer(10000, 1000) {
+                        //Add onClick capability that turns off timer, and add automatic email/text msg in onFinish()
                         public void onTick(long millisUntilFinished) {
                             //Do nothing
                         }
@@ -204,9 +208,6 @@ public class HomeActivity extends Activity implements BeaconConsumer,RangeNotifi
                 }
                 }
     }
-
-
-
 
 
 
@@ -253,6 +254,16 @@ public class HomeActivity extends Activity implements BeaconConsumer,RangeNotifi
 // mId allows you to update the notification later on.
         mNotificationManager.notify(1, mBuilder.build());
     }
+
+    public void sendSMS() {
+        String messageToSend = "Test";
+        String number = "3018019811";
+        SmsManager.getDefault().sendTextMessage(number, null, messageToSend, null,null);
+    }
+
+
+
+
 }
 
 
