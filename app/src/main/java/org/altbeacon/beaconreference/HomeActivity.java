@@ -131,13 +131,13 @@ public class HomeActivity extends Activity implements BeaconConsumer {
                         trackedBeacons.put(getBeaconKey(beacon), beacon);
                         trackedBeaconDates.put(getBeaconKey(beacon), new Date());
                     }
+                    runOnUiThread(
+                            new Runnable() {
+                                public void run() {
+                                    beaconfound();
+                                }
+                            });
                 }
-                runOnUiThread(
-                        new Runnable() {
-                            public void run() {
-                                beaconfound();
-                            }
-                        });
             }
         });
         mBeaconManager.setMonitorNotifier(new MonitorNotifier() {
@@ -187,37 +187,20 @@ public class HomeActivity extends Activity implements BeaconConsumer {
         });
 
             if (sortedBeacons.size()>0) {
-                Log.d(TAG, "OBSC:Matched Beacon");
+                Log.d(TAG, "OBSC:Beacon Found");
                 TextView home_default_text=(TextView)findViewById(R.id.home_default_text);
                 home_default_text.setVisibility(View.INVISIBLE);
-                TextView beacon_info = (TextView) findViewById(R.id.beacon_info);
-                beacon_info.setVisibility(View.VISIBLE);
+                Toast.makeText(HomeActivity.this,"A beacon has been spotted! If you have not yet configured your beacon, please do so by visiting the settings page",Toast.LENGTH_LONG).show();
             }
 
 }
 
         public void beaconentered() {
             for (Beacon beacon : sortedBeacons) {
-                Log.d(TAG, "OBSC:Reached ForLoop");
                 if (String.valueOf(beacon.getId1()) == beacon_uuid && String.valueOf(beacon.getId2()) == beacon_major && String.valueOf(beacon.getId3()) == beacon_minor) {
-                    Log.d(TAG, "OBSC:Matched Beacon");
-                    TextView beacon_info = (TextView) findViewById(R.id.beacon_info);
-                    beacon_info.setVisibility(View.VISIBLE);
-                    Button enterregion_yes=(Button) findViewById(R.id.enterregion_yes);
-                    enterregion_yes.setVisibility(View.VISIBLE);
-                    Button enterregion_no=(Button) findViewById(R.id.enterregion_no);
-                    enterregion_no.setVisibility(View.VISIBLE);
-                    enterregion_yes.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            TextView beacon_info = (TextView) findViewById(R.id.beacon_info);
-                            beacon_info.setVisibility(View.INVISIBLE);
-                            Button enterregion_yes=(Button) findViewById(R.id.enterregion_yes);
-                            enterregion_yes.setVisibility(View.INVISIBLE);
-                            Button enterregion_no=(Button) findViewById(R.id.enterregion_no);
-                            enterregion_no.setVisibility(View.INVISIBLE);
-                        }
-                    });
+                    Log.d(TAG, "OBSC:Beacon entered region");
+                    BeaconDetectedDialogFragment myFragment = new BeaconDetectedDialogFragment();
+                    myFragment.show(getFragmentManager(), "theDialog");
                 }
             }
         }

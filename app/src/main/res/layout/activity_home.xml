@@ -29,42 +29,4 @@
         android:textColor="#ffffff"
         android:visibility="invisible" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Your beacon has entered region. Would you like to monitor it?"
-        android:id="@+id/beacon_entered"
-        android:layout_below="@+id/home_default_text"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="54dp"
-        android:textStyle="bold"
-        android:textColor="#ffffff"
-        android:visibility="invisible" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Yes"
-        android:id="@+id/enterregion_yes"
-        android:textStyle="bold"
-        android:textColor="#ffffff"
-        android:visibility="invisible"
-        android:layout_below="@+id/beacon_entered"
-        android:layout_alignEnd="@+id/beacon_info"
-        android:layout_marginEnd="74dp"
-        android:layout_marginRight="90dp" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No"
-        android:id="@+id/enterregion_no"
-        android:textStyle="bold"
-        android:textColor="#ffffff"
-        android:visibility="invisible"
-        android:layout_below="@+id/beacon_entered"
-        android:layout_alignEnd="@+id/beacon_info"
-        android:layout_marginEnd="74dp"
-        android:layout_marginRight="15dp" />
-
 </RelativeLayout>
